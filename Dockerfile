@@ -1,6 +1,6 @@
 FROM counterparty/base
 
-MAINTAINER Counterparty Developers <dev@counterparty.io>
+MAINTAINER Monaparty Developers <dev@monaparty.me>
 
 # install additional deps
 RUN apt-get update && apt-get -y install ssl-cert make libpcre3-dev libxslt1-dev libgd2-xpm-dev libgeoip-dev unzip zip build-essential libssl-dev libxslt1.1 libgeoip1 geoip-database libpcre3
