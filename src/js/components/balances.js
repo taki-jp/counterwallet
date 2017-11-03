@@ -1643,7 +1643,7 @@ function TestnetBurnModalViewModel() {
 
   self.quantityXCPToBeCreated = ko.computed(function() { //normalized
     if (!self.btcBurnQuantity() || !parseFloat(self.btcBurnQuantity())) return null;
-    return testnetBurnDetermineEarned(WALLET.networkBlockHeight(), self.btcBurnQuantity());
+    return burnDetermineEarned(USE_TESTNET ? TESTNET_BURN : MAINNET_BURN, WALLET.networkBlockHeight(), self.btcBurnQuantity());
   }, self);
 
   self.dispQuantityXCPToBeCreated = ko.computed(function() {

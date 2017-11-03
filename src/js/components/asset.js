@@ -48,6 +48,12 @@ function AssetViewModel(props) {
     return self.owner() == self.ADDRESS;
   }, self);
 
+  self.isBurnable = ko.computed(function() {
+    var network = USE_TESTNET ? TESTNET_BURN : MAINNET_BURN;
+    var height = WALLET.networkBlockHeight();
+    return self.ASSET === KEY_ASSET.BTC && network.START <= height && height <= network.END;
+  }, self);
+
   self.normalizedBalance = ko.computed(function() {
     if (self.rawBalance() === null) return null;
     return normalizeQuantity(self.rawBalance(), self.DIVISIBLE);
