@@ -51,6 +51,7 @@ var testnet = { hashGenesisBlock: 'a2b106ceba3be0c6d097b2a6a6aacf9d638ba8258ae47
   networkMagic: 4258449649,
   dnsSeeds: [ 'testnet-dnsseed.monacoin.org' ] };
 
+bitcore.Networks.remove(bitcore.Networks.testnet);
 bitcore.Networks.mainnet = bitcore.Networks.add(mainnet);
 bitcore.Networks.testnet = bitcore.Networks.add(testnet);
 bitcore.Networks.livenet = bitcore.Networks.mainnet;
