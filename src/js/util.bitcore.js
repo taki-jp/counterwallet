@@ -174,7 +174,7 @@ CWPrivateKey.prototype.getAddresses = function() {
 
 CWPrivateKey.prototype.isValid = function() {
   try {
-    return bitcore.Address.isValid(this.getAddress(), NETWORK, bitcore.Address.Pay2PubKeyHash);
+    return bitcore.Address.isValid(this.getAddress(), NETWORK, bitcore.Address.PayToPublicKeyHash);
   } catch (err) {
     return false;
   }
@@ -278,7 +278,7 @@ CWBitcore.isOutScript = function(script) {
 
 CWBitcore.isValidAddress = function(val) {
   try {
-    return bitcore.Address.isValid(val, NETWORK, bitcore.Address.Pay2PubKeyHash);
+    return bitcore.Address.isValid(val, NETWORK, bitcore.Address.PayToPublicKeyHash);
   } catch (err) {
     return false;
   }
