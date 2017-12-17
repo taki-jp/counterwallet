@@ -7,6 +7,8 @@ function BalanceHistoryViewModel() {
   self.graphData = null;
   self.ASSET_LASTCHANGE = null;
 
+  self.BTC = ko.observable(KEY_ASSET.BTC);
+
   self.init = function() {
     //contact server for list of all assets at the addresses we have
     failoverAPI("get_owned_assets", {addresses: WALLET.getAddressesList()}, function(data, endpoint) {
@@ -167,27 +169,28 @@ function TransactionHistoryItemViewModel(data) {
     //TODO: this display of data is very elementary and basic. IMPROVE greatly in the future...
     var desc = "";
     if (self.RAW_TX_TYPE == 'burns') {
-      desc = i18n.t("hist_burn", normalizeQuantity(self.DATA['burned']), smartFormat(normalizeQuantity(self.DATA['earned'])));
+      desc = i18n.t("hist_burn", KEY_ASSET.XCP, currency(normalizeQuantity(self.DATA['burned']), KEY_ASSET.BTC), currency(smartFormat(normalizeQuantity(self.DATA['earned']))));
     } else if (self.RAW_TX_TYPE == 'sends') {
-      desc = i18n.t("hist_send", smartFormat(normalizeQuantity(self.DATA['quantity'],
-        self.DATA['_asset_divisible'])), self.DATA['_asset_longname'] || self.DATA['asset'],
+      desc = i18n.t("hist_send", currency(smartFormat(normalizeQuantity(self.DATA['quantity'],
+        self.DATA['_asset_divisible'])), self.DATA['_asset_longname'] || self.DATA['asset']),
         getLinkForCPData('address', self.DATA['destination'], getAddressLabel(self.DATA['destination'])));
     } else if (self.RAW_TX_TYPE == 'orders') {
-      desc = i18n.t("hist_sell", smartFormat(normalizeQuantity(self.DATA['give_quantity'], self.DATA['_give_asset_divisible'])),
-        self.DATA['_give_asset_longname'] || self.DATA['give_asset'],
-        smartFormat(normalizeQuantity(self.DATA['get_quantity'], self.DATA['_get_asset_divisible'])),
-        self.DATA['_get_asset_longname'] || self.DATA['get_asset']);
+      desc = i18n.t("hist_sell", currency(smartFormat(normalizeQuantity(self.DATA['give_quantity'], self.DATA['_give_asset_divisible'])),
+        self.DATA['_give_asset_longname'] || self.DATA['give_asset']),
+        currency(smartFormat(normalizeQuantity(self.DATA['get_quantity'], self.DATA['_get_asset_divisible'])),
+        self.DATA['_get_asset_longname'] || self.DATA['get_asset']));
     } else if (self.RAW_TX_TYPE == 'order_matches') {
       desc = i18n.t("hist_order_match", getAddressLabel(self.DATA['tx0_address']),
-        smartFormat(normalizeQuantity(self.DATA['forward_quantity'], self.DATA['_forward_asset_divisible'])),
-        self.DATA['_forward_asset_longname'] || self.DATA['forward_asset'], getAddressLabel(self.DATA['tx1_address']),
-        smartFormat(normalizeQuantity(self.DATA['backward_quantity'], self.DATA['_backward_asset_divisible'])),
-        self.DATA['_backward_asset_longname'] || self.DATA['backward_asset']);
+        currency(smartFormat(normalizeQuantity(self.DATA['forward_quantity'], self.DATA['_forward_asset_divisible'])),
+        self.DATA['_forward_asset_longname'] || self.DATA['forward_asset']),
+        getAddressLabel(self.DATA['tx1_address']),
+        currency(smartFormat(normalizeQuantity(self.DATA['backward_quantity'], self.DATA['_backward_asset_divisible'])),
+        self.DATA['_backward_asset_longname'] || self.DATA['backward_asset']));
       if (self.DATA['forward_asset'] === KEY_ASSET.BTC || self.DATA['backward_asset'] === KEY_ASSET.BTC) {
         desc += " <b>(" + i18n.t("pending BTCpay") + ")</b>";
       }
     } else if (self.RAW_TX_TYPE == 'btcpays') {
-      desc = i18n.t("hist_btcpay", smartFormat(normalizeQuantity(self.DATA['btc_amount'])));
+      desc = i18n.t("hist_btcpay", currency(smartFormat(normalizeQuantity(self.DATA['btc_amount'])), KEY_ASSET.BTC));
     } else if (self.RAW_TX_TYPE == 'issuances') {
       if (self.DATA['transfer']) {
         desc = i18n.t("hist_transfer", self.DATA['_asset_longname'] || self.DATA['asset'],
@@ -204,14 +207,14 @@ function TransactionHistoryItemViewModel(data) {
       desc = i18n.t("hist_bet", BET_TYPES[self.DATA['bet_type']],
         getLinkForCPData('address', self.DATA['feed_address'], getAddressLabel(self.DATA['feed_address'])),
         reduce(self.DATA['wager_quantity'], self.DATA['counterwager_quantity']).join('/'),
-        smartFormat(normalizeQuantity(self.DATA['wager_quantity'])),
-        smartFormat(normalizeQuantity(self.DATA['counterwager_quantity'])));
+        currency(smartFormat(normalizeQuantity(self.DATA['wager_quantity']))),
+        currency(smartFormat(normalizeQuantity(self.DATA['counterwager_quantity']))));
     } else if (self.RAW_TX_TYPE == 'bet_matches') {
       desc = i18n.t("hist_bet_match", getLinkForCPData('address', self.DATA['feed_address'], getAddressLabel(self.DATA['feed_address'])),
         getAddressLabel(self.DATA['tx0_address']),
-        smartFormat(normalizeQuantity(self.DATA['forward_quantity'])),
+        currency(smartFormat(normalizeQuantity(self.DATA['forward_quantity']))),
         getAddressLabel(self.DATA['tx1_address']),
-        smartFormat(normalizeQuantity(self.DATA['backward_quantity'])));
+        currency(smartFormat(normalizeQuantity(self.DATA['backward_quantity']))));
     } else if (self.RAW_TX_TYPE == 'dividends') {
       desc = i18n.t("hist_dividend", smartFormat(normalizeQuantity(self.DATA['quantity_per_unit'])),
         self.DATA['_dividend_asset_longname'] || self.DATA['dividend_asset'], self.DATA['_asset_longname'] || self.DATA['asset']);
@@ -228,7 +231,7 @@ function TransactionHistoryItemViewModel(data) {
     } else if (self.RAW_TX_TYPE == 'credits' || self.RAW_TX_TYPE == 'debits') {
       var tx_type = (self.RAW_TX_TYPE == 'credits' ? i18n.t('hist_credited_with') : i18n.t('hist_debited_for'))
       desc = i18n.t("hist_credit_debit", getLinkForCPData('address', self.DATA['address'], getAddressLabel(self.DATA['address'])), tx_type,
-        smartFormat(normalizeQuantity(self.DATA['quantity'], self.DATA['_asset_divisible'])), self.DATA['_asset_longname'] || self.DATA['asset']);
+        currency(smartFormat(normalizeQuantity(self.DATA['quantity'], self.DATA['_asset_divisible'])), self.DATA['_asset_longname'] || self.DATA['asset']));
 
     } else {
       desc = i18n.t("hist_unknown");
@@ -310,6 +313,13 @@ function TransactionHistoryViewModel() {
       }
       txnHistory.fnAdjustColumnSizing();
     }
+  }
+
+  function currency(value, unit) {
+    if (unit === undefined) {
+      unit = KEY_ASSET.XCP;
+    }
+    return i18n.t('<Am>%s</Am> <As>%s</As>', value, unit);
   }
 }
 

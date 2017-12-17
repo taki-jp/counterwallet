@@ -10,8 +10,8 @@ var MAX_ADDRESSES = 20; //arbitrary (but will generate more on login if they hav
                         //additional addresses from being generated via the GUI)
 
 //Order expiration
-var ORDER_DEFAULT_EXPIRATION = 1000; //num blocks until expiration (at ~9 min per block this is ~6.75 days)
-var ORDER_MAX_EXPIRATION = 3000; //max expiration for order
+var ORDER_DEFAULT_EXPIRATION = 15000; //num blocks until expiration (at ~90 sec per block this is ~6.95 days)
+var ORDER_MAX_EXPIRATION = 45000; //max expiration for order
 
 var STATS_MAX_NUM_TRANSACTIONS = 100; //max # transactions to show in the table
 var VIEW_PRICES_NUM_ASSET_PAIRS = 50; //show market info for this many pairs
@@ -229,7 +229,7 @@ var MAX_SUPPORT_CASE_PROBLEM_LEN = 4096;
 var QUOTE_ASSETS = []; // initalized with counterblock is_ready()
 
 var QUICK_BUY_ENABLE = false;
-var BETTING_ENABLE = true;
+var BETTING_ENABLE = false;
 var GAMING_ENABLE = true;
 
 function qs(key) {

@@ -46,6 +46,8 @@ function ExchangeViewModel() {
   var self = this;
   createExchangeKnockoutValidators();
 
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+
   self.dexHome = ko.observable(true);
 
   self._lastWindowWidth = null;
@@ -1113,7 +1115,7 @@ function ExchangeViewModel() {
 
     } else {
 
-      var message = i18n.t('cancel_consume_btc');
+      var message = i18n.t('cancel_consume_btc', KEY_ASSET.BTC);
 
       bootbox.dialog({
         title: i18n.t("confirm_cancellation_order"),
@@ -1388,7 +1390,7 @@ function OpenOrdersViewModel() {
 
     } else {
 
-      var message = i18n.t('cancel_consume_btc');
+      var message = i18n.t('cancel_consume_btc', KEY_ASSET.BTC);
 
       bootbox.dialog({
         title: i18n.t("confirm_cancellation_order"),

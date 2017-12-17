@@ -445,7 +445,7 @@ function WalletViewModel() {
         addressObj.numPrimedTxoutsIncl0Confirms(null); //null = UNKNOWN
       }
       //But don't pop up a message box so we don't freak out users -- just alert on console
-      $.jqlog.warn(i18n.t("btc_sync_error", textStatus));
+      $.jqlog.warn(i18n.t("btc_sync_error", KEY_ASSET.BTC, textStatus));
       //bootbox.alert(i18n.t("btc_sync_error", textStatus));
 
       if (isRecurring && self.autoRefreshBTCBalances) {
@@ -575,7 +575,7 @@ function WalletViewModel() {
     assert(!addressObj.IS_WATCH_ONLY, "Cannot perform this action on a watch only address!");
 
     if (self.getBalance(address, KEY_ASSET.BTC, false) < MIN_BALANCE_FOR_ACTION) {
-      bootbox.alert(i18n.t("insufficient_btc", normalizeQuantity(MIN_BALANCE_FOR_ACTION), getAddressLabel(address)));
+      bootbox.alert(i18n.t("insufficient_btc", KEY_ASSET.BTC, normalizeQuantity(MIN_BALANCE_FOR_ACTION), KEY_ASSET.BTC, KEY_ASSET.BTC, getAddressLabel(address)));
       return false;
     }
 

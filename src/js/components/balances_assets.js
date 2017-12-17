@@ -138,7 +138,7 @@ function CreateAssetModalViewModel() {
         if (self.tokenNameType() == 'alphabetic') {
           message += i18n.t("issuance_end_message", getAddressLabel(self.address()), ASSET_CREATION_FEE_XCP);
         } else {
-          message += i18n.t("free_issuance_end_message");
+          message += i18n.t("free_issuance_end_message", KEY_ASSET.XCP);
         }
         WALLET.showTransactionCompleteDialog(message + " " + i18n.t(ACTION_PENDING_NOTICE), message, armoryUTx);
       }

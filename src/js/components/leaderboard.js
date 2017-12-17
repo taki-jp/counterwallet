@@ -9,6 +9,8 @@ var AssetLeaderboardViewModel = CClass.create(function() {
     {'base': KEY_ASSET.BTC, 'data': ko.observableArray([])}
   ]);
   self._lastWindowWidth = null;
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+  self.BTC = ko.observable(KEY_ASSET.BTC);
 
   self.init = function(assets) {
     //Get a list of all assets the user has

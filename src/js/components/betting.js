@@ -16,6 +16,11 @@ function FeedBrowserViewModel() {
     }
   }
 
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+  self.xcpValue = function(value) {
+    return value + ' ' + KEY_ASSET.XCP;
+  };
+
   self.feed = ko.observable(null);
   self.targetValue = ko.observable(0);
   self.targetValueText = ko.observable('');

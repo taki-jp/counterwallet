@@ -20,6 +20,9 @@ function DonationViewModel() {
     }
   }
 
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+  self.BTC = ko.observable(KEY_ASSET.BTC);
+
   self.shown = ko.observable(false);
   self.availableAddresses = ko.observableArray([]);
   self.sourceAddress = ko.observable(null).extend(quantityValidator);

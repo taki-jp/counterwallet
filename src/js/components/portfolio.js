@@ -7,6 +7,9 @@ var AssetPortfolioViewModel = AssetLeaderboardViewModel.extend(function() {
   self.balancesByAsset = {};
   self.myGraphTables = {};
 
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+  self.BTC = ko.observable(KEY_ASSET.BTC);
+
   self.showPortfolioIn.subscribeChanged(function(newValue, prevValue) {
     //use this to hook into the parent class being done with loading its market info data
     if (!self.marketInfo.length) return; //nothing to show

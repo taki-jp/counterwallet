@@ -725,7 +725,7 @@ function SendModalViewModel() {
 
   self.show = function(fromAddress, asset, assetDisp, rawBalance, isDivisible, resetForm) {
     if (asset === KEY_ASSET.BTC && rawBalance === null) {
-      return bootbox.alert(i18n.t("cannot_send_server_unavailable"));
+      return bootbox.alert(i18n.t("cannot_send_server_unavailable", KEY_ASSET.BTC));
     }
     assert(rawBalance, "Balance is null or undefined?");
 
@@ -819,7 +819,7 @@ function SweepModalViewModel() {
 
         if (totalBtcBalanceForSweeep < sweepingCost) {
 
-          this.message = i18n.t("not_able_to_sweep", normalizeQuantity(self.missingBtcForFees), self.addressForPrivateKey());
+          this.message = i18n.t("not_able_to_sweep", number_to_currency(normalizeQuantity(self.missingBtcForFees)), self.addressForPrivateKey());
           self.notEnoughBTC(true);
           return false;
 
@@ -1131,7 +1131,7 @@ function SweepModalViewModel() {
       bootbox.alert(err.message || err);
     };
 
-    var message = i18n.t("sending_btc_for_sweeping_fees", normalizeQuantity(self.missingBtcForFees), self.addressForPrivateKeyForFees());
+    var message = i18n.t("sending_btc_for_sweeping_fees", number_to_currency(normalizeQuantity(self.missingBtcForFees)), self.addressForPrivateKeyForFees());
     self.sweepingProgressionMessage(message);
     $.jqlog.debug(message);
     multiAPIConsensus("create_send", sendData, onTransactionCreated, onConsensusError, onSysError);
@@ -1613,6 +1613,10 @@ function SignMessageModalViewModel() {
 
 function TestnetBurnModalViewModel() {
   var self = this;
+
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+  self.BTC = ko.observable(KEY_ASSET.BTC);
+
   self.shown = ko.observable(false);
   self.address = ko.observable(''); // SOURCE address (supplied)
   self.btcAlreadyBurned = ko.observable(null); // quantity BTC already burned from this address (normalized)
@@ -1622,7 +1626,7 @@ function TestnetBurnModalViewModel() {
     isValidPositiveQuantity: self,
     validation: [{
       validator: function(val, self) {
-        return parseFloat(val) > 0 && parseFloat(val) <= 1;
+        return parseFloat(val) > 0 && parseFloat(val) <= 3900;
       },
       message: i18n.t('quantity_must_be_between_0_and_1'),
       params: self
@@ -1634,7 +1638,7 @@ function TestnetBurnModalViewModel() {
       params: self
     }, {
       validator: function(val, self) {
-        return !(parseFloat(val) > 1 - self.btcAlreadyBurned());
+        return !(parseFloat(val) > 3900 - self.btcAlreadyBurned());
       },
       message: i18n.t('you_can_only_burn'),
       params: self
@@ -1652,7 +1656,7 @@ function TestnetBurnModalViewModel() {
 
   self.maxPossibleBurn = ko.computed(function() { //normalized
     if (self.btcAlreadyBurned() === null) return null;
-    return Math.min(1 - self.btcAlreadyBurned(), WALLET.getAddressObj(self.address()).getAssetObj(KEY_ASSET.BTC).normalizedBalance())
+    return Math.min(3900 - self.btcAlreadyBurned(), WALLET.getAddressObj(self.address()).getAssetObj(KEY_ASSET.BTC).normalizedBalance())
   }, self);
 
   self.validationModel = ko.validatedObservable({
@@ -1684,9 +1688,9 @@ function TestnetBurnModalViewModel() {
 
         var message;
         if (armoryUTx) {
-          message = i18n.t("you_will_be_burning", self.btcBurnQuantity(), self.quantityXCPToBeCreated());
+          message = i18n.t("you_will_be_burning", self.btcBurnQuantity(), KEY_ASSET.BTC, self.quantityXCPToBeCreated(), KEY_ASSET.XCP);
         } else {
-          message = i18n.t("you_have_burned", self.btcBurnQuantity(), self.quantityXCPToBeCreated());
+          message = i18n.t("you_have_burned", self.btcBurnQuantity(), KEY_ASSET.BTC, self.quantityXCPToBeCreated(), KEY_ASSET.XCP);
         }
         WALLET.showTransactionCompleteDialog(message + " " + i18n.t(ACTION_PENDING_NOTICE), message, armoryUTx);
       }
@@ -2007,6 +2011,13 @@ function ArmoryBroadcastTransactionModalViewModel() {
     );
 
     trackEvent('Balances', 'ArmoryBroadcastTransaction');
+  }
+
+  function number_to_currency(num, currency) {
+    if (currency === undefined) {
+      currency = KEY_ASSET.BTC;
+    }
+    return num + ' ' + currency;
   }
 }
 

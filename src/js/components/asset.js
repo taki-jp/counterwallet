@@ -39,6 +39,8 @@ function AssetViewModel(props) {
     return self.ASSET === KEY_ASSET.BTC;
   }, self);
 
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+
   self.isXCP = ko.computed(function() {
     return self.ASSET === KEY_ASSET.XCP;
   }, self);

@@ -39,7 +39,7 @@ PendingActionViewModel.calcText = function(category, data) {
   }
 
   if (category == 'burns') {
-    desc = i18n.t("pend_or_unconf_burn", pending, normalizeQuantity(data['quantity']));
+    desc = i18n.t("pend_or_unconf_burn", pending, normalizeQuantity(data['quantity']), KEY_ASSET.BTC);
   } else if (category == 'sends') {
     desc = i18n.t("pend_or_unconf_send", pending, numberWithCommas(normalizeQuantity(data['quantity'], divisible)),
       asset_longname || data['asset'],
@@ -83,8 +83,8 @@ PendingActionViewModel.calcText = function(category, data) {
     desc = i18n.t("pend_or_unconf_broadcast", pending, data['text'], data['value']);
   } else if (category == 'bets') {
     desc = i18n.t("pend_or_unconf_bet", pending, data['bet_type'], getLinkForCPData('address', data['feed_address'], getAddressLabel(data['feed_address'])),
-      numberWithCommas(normalizeQuantity(data['wager_quantity'])),
-      numberWithCommas(normalizeQuantity(data['counterwager_quantity'])));
+      numberWithCommas(normalizeQuantity(data['wager_quantity'])), KEY_ASSET.XCP,
+      numberWithCommas(normalizeQuantity(data['counterwager_quantity'])), KEY_ASSET.XCP);
   } else if (category == 'dividends') {
 
     var divUnitDivisible;
@@ -103,13 +103,13 @@ PendingActionViewModel.calcText = function(category, data) {
   } else if (category == 'cancels') {
     desc = i18n.t("pend_or_unconf_cancellation", pending, data['_type'], data['_tx_index']);
   } else if (category == 'btcpays') {
-    desc = i18n.t("pend_or_unconf_btcpay", pending, getAddressLabel(data['source']));
+    desc = i18n.t("pend_or_unconf_btcpay", pending, KEY_ASSET.BTC, getAddressLabel(data['source']));
   } else if (category == 'order_matches') {
 
     if (WALLET.getAddressObj(data['tx1_address']) && data['forward_asset'] === KEY_ASSET.BTC && data['_status'] === 'pending') {
-      desc = i18n.t("pend_or_unconf_wait_btcpay", numberWithCommas(normalizeQuantity(data['forward_quantity'])), getAddressLabel(data['tx0_address']));
+      desc = i18n.t("pend_or_unconf_wait_btcpay", numberWithCommas(normalizeQuantity(data['forward_quantity'])), KEY_ASSET.BTC, getAddressLabel(data['tx0_address']));
     } else if (WALLET.getAddressObj(data['tx0_address']) && data['backward_asset'] === KEY_ASSET.BTC && data['_status'] === 'pending') {
-      desc = i18n.t("pend_or_unconf_wait_btcpay", numberWithCommas(normalizeQuantity(data['backward_quantity'])), getAddressLabel(data['tx1_address']));
+      desc = i18n.t("pend_or_unconf_wait_btcpay", numberWithCommas(normalizeQuantity(data['backward_quantity'])), KEY_ASSET.BTC, getAddressLabel(data['tx1_address']));
     }
 
   } else {
