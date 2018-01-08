@@ -2,6 +2,7 @@
 
 var bitcore = require('bitcore-lib');
 var bitcoreMessage = require('bitcore-message'); // this also binds itself to bitcore.Message as soon as it's require'd
+bitcoreMessage.MAGIC_BYTES = bitcore.deps.Buffer('Monacoin Signed Message:\n');
 
 var mainnet = { hashGenesisBlock: 'ff9f1c0116d19de7c9963845e129f9ed1bfc0b376eb54fd7afa42e0d418c8bb6',
   port: 9401,
