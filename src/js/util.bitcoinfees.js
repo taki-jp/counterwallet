@@ -67,6 +67,8 @@ var CWBitcoinFees = (function() {
   }
 
   function refreshCache(cb) {
+    feesCache = defaultFees;
+/*
     $.ajax({
       method: "GET",
       url: "https://bitcoinfees.earn.com/api/v1/fees/list",
@@ -89,6 +91,7 @@ var CWBitcoinFees = (function() {
         return
       }
     });
+*/
   }
 
   function buildFeesFromResponse(apiResponse) {
