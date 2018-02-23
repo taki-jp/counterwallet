@@ -596,10 +596,10 @@
       <div class="modal-body no-padding">
         <p class="formPadded">
           <span data-bind="locale: 'create_xcp_testnet', localeArgs: {0:XCP, 1:BTC, 2:BTC}"></span><br/><br/>
-          <span data-bind="visible: 3900 - btcAlreadyBurned() > 0">
+          <span data-bind="visible: 1 - btcAlreadyBurned() > 0">
             <b data-bind="locale: 'burn_up_to', localeArgs: {0: maxPossibleBurn(), 1:BTC}"></b>
           </span>
-          <span data-bind="visible: 3900 - btcAlreadyBurned() <= 0">
+          <span data-bind="visible: 1 - btcAlreadyBurned() <= 0">
             <b class="errorColor"><span data-bind="locale: 'already_burned', localeArgs: BTC"></span></b>
           </span>
        </p>
