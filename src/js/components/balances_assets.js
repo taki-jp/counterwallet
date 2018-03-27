@@ -30,6 +30,8 @@ function CreateAssetModalViewModel() {
   var self = this;
   createCreateAssetKnockoutValidators();
 
+  self.XCP = ko.observable(KEY_ASSET.XCP);
+
   self.shown = ko.observable(false);
   self.address = ko.observable('');
   self.xcpBalance = ko.observable(0);

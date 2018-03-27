@@ -2,6 +2,7 @@
 
 var bitcore = require('bitcore-lib');
 var bitcoreMessage = require('bitcore-message'); // this also binds itself to bitcore.Message as soon as it's require'd
+bitcoreMessage.MAGIC_BYTES = bitcore.deps.Buffer('Monacoin Signed Message:\n');
 
 var mainnet = { hashGenesisBlock: 'ff9f1c0116d19de7c9963845e129f9ed1bfc0b376eb54fd7afa42e0d418c8bb6',
   port: 9401,
@@ -11,7 +12,8 @@ var mainnet = { hashGenesisBlock: 'ff9f1c0116d19de7c9963845e129f9ed1bfc0b376eb54
   versions:
    { bip32: { private: 76066276, public: 76067358 },
      bip44: 22,
-     private: 178,
+     private: 176,
+     private_old: 178,
      public: 50,
      scripthash: 55,
      scripthash2: 5 },
@@ -20,7 +22,8 @@ var mainnet = { hashGenesisBlock: 'ff9f1c0116d19de7c9963845e129f9ed1bfc0b376eb54
   testnet: false,
   alias: 'mainnet',
   pubkeyhash: 50,
-  privatekey: 178,
+  privatekey: 176,
+  privatekey_old: 178,
   scripthash: 55,
   xpubkey: 76067358,
   xprivkey: 76066276,

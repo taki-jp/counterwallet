@@ -1626,7 +1626,7 @@ function TestnetBurnModalViewModel() {
     isValidPositiveQuantity: self,
     validation: [{
       validator: function(val, self) {
-        return parseFloat(val) > 0 && parseFloat(val) <= 3900;
+        return parseFloat(val) > 0 && parseFloat(val) <= 1;
       },
       message: i18n.t('quantity_must_be_between_0_and_1'),
       params: self
